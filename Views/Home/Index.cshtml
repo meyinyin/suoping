@@ -1,0 +1,440 @@
+﻿
+@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Maticsoft.BLL.About abll = new Maticsoft.BLL.About();
+    var alist = abll.GetModelList("ID=1");
+    Maticsoft.BLL.News lsbll = new Maticsoft.BLL.News();
+    var lslist = lsbll.GetModelList("SortID=6 and IsLock=1").OrderBy(c => c.ReadCount);
+    Maticsoft.BLL.News nbll = new Maticsoft.BLL.News();
+    var fllist = nbll.GetModelList("IsTJ=1 and IsLock=1 and IsHot=1 and IsTop=1 and SortID=2").Take(2);
+    var fglist = nbll.GetModelList("IsTJ=1 and IsLock=1 and IsHot=1 and IsTop=1 and SortID=5").OrderByDescending(c => c.AddDateTime).Take(3);
+    var allist = nbll.GetModelList("IsTJ=1 and IsLock=1 and IsHot=1 and IsTop=1 and SortID=3").OrderByDescending(c => c.AddDateTime).Take(3);
+    var dtlist = nbll.GetModelList("IsTJ=1 and IsLock=1 and IsHot=1 and IsTop=1 and SortID=7").OrderByDescending(c => c.AddDateTime).Take(1);
+    var rylist = nbll.GetModelList("IsTJ=1 and IsLock=1 and IsHot=1 and IsTop=1 and SortID=8").OrderByDescending(c => c.AddDateTime).Take(4);
+    var djlist = nbll.GetModelList("IsTJ=1 and IsLock=1 and IsHot=1 and IsTop=1 and SortID=9").OrderByDescending(c => c.AddDateTime).Take(1);
+    var hjlist = nbll.GetModelList("SortID=12 and IsLock=1").OrderByDescending(c => c.AddDateTime).Take(6);
+}
+
+<!-- HERO BANNER PART START -->
+<link href="~/Content/jqimg/css/style.css" rel="stylesheet" />
+<script src="~/Content/jqimg/js/jquery.js"></script>
+<script src="~/Content/jqimg/js/jquery.SuperSlide.2.1.1.js"></script>
+
+<style>
+    .newMinHeight {
+        min-height: 241px !important
+    }
+</style>
+
+
+<div class=" banner-slider " style="        background: url(/Content/picture/bj003.png);
+        background-size: cover;
+">
+    @{
+        foreach (var a in alist)
+        {
+            <div class="hero-banner-part">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="hero-content text-center web-font newMinHeight">
+                                <h1>@a.Title1</h1>
+                                <a href="/Home/Index#suopingdongtai" class="theme-btn">关于索平</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-banner-part">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="hero-content text-center newMinHeight">
+                                <h1>@a.Title2</h1>
+                                <a href="/Home/Index#suopingrongyu" class="theme-btn">索平荣誉</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    }
+</div>
+<!-- HERO BANNER PART END -->
+<!-- PRACTICE AREA PART START -->
+<div class="practice-area" id="suopingdongtai">
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-lg-8">
+                <div class="section-heading-content text-center">
+                    <h2>索平动态</h2>
+                    <span>Incommode so intention defective at convinced.</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="grid-practice-area">
+                    <img src="~/Content/sp3ui/images/choose/time.svg" alt="" />
+                    <h3><a href="javascript:;">律所介绍</a></h3>
+                    <p>
+                        @foreach (var lvjs in alist)
+                        {@lvjs.JDtxt1}
+                    </p>
+
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="grid-practice-area">
+                    <img src="~/Content/sp3ui/images/choose/broken.svg" alt="" />
+                    <h3><a href="javascript:;">业务范围</a></h3>
+                    <p>
+                        @foreach (var ywfw in alist)
+                        {@ywfw.JDtxt2}
+                    </p>
+
+                </div>
+            </div>
+            @{
+                foreach (var spnews in dtlist)
+                {
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="grid-practice-area">
+                            <img src="~/Content/sp3ui/images/practice/relationship.svg" alt="" />
+                            <h3><a href="/News/Index?sort=7">索平新闻</a></h3>
+                            <a href="/News/NewsShow/@spnews.ID">
+                                <p>@spnews.Description</p>
+                                <p>@spnews.AddDateTime</p>
+                            </a>
+                            <a href="/News/Index?sort=7" class="read-more-btn">查看更多... <span class="fas fa-long-arrow-alt-right"></span></a>
+                        </div>
+                    </div>
+                }
+            }
+            @{
+                foreach (var djnews in djlist)
+                {
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="grid-practice-area">
+                            <img src="~/Content/sp3ui/images/practice/relationship.svg" alt="" />
+                            <h3><a href="/News/Index?sort=9">索平党建</a></h3>
+                            <a href="/News/NewsShow/@djnews.ID">
+                                <p>@djnews.Description</p>
+                                <p>@djnews.AddDateTime</p>
+                            </a>
+                            <a href="/News/Index?sort=9" class="read-more-btn">查看更多... <span class="fas fa-long-arrow-alt-right"></span></a>
+                        </div>
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+</div>
+
+<!-- PRACTICE AREA PART END -->
+<!-- EXPERIENCE PART START -->
+@*<div class="experience-part">
+        <div class="container">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-lg-8">
+                    <div class="experience-content text-center">
+                        <h2>We are 25 years of experience in various cases.</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+<!-- EXPERIENCE PART END -->
+<!-- CHOOSE US PART START -->
+<div class="choose-us-part" id="suopingrongyu" style="background-image:url()">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="row">
+                    <div class="col-lg-12">
+                        @*<div class="section-heading-content text-left">*@
+                        <div class="section-heading-content text-center">
+                            <h2>索平荣誉</h2>
+                            <span>Incommode so intention defective at convinced.</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="home-banner" style="height:550px;">
+                    @*<div class="home-banner-box">
+                        <div class="home-banner-head">
+                            <h2>jquery滑动轮播图</h2>
+                        </div>
+                    </div>*@
+                    <div class="home-banner-body">
+                        <div class="home-banner-bg"></div>
+                        <div class="home-banner-slider">
+                            <div class="home-banner-con">
+                                <div class="home-shadow">
+                                    @*<div class="home-banner-line">
+                                        <div class="home-banner-list">
+                                            <div class="item-q"></div>
+                                            <div class="item-q"></div>
+                                            <div class="item-q"></div>
+                                        </div>
+                                    </div>*@
+                                    <div class="bd">
+                                        <ul>
+                                            @{
+                                                foreach (var rynews in rylist)
+                                                {
+                                                            <li>
+                                                                <img src="@rynews.PicURL" alt="">
+                                                                <div class="home-banner-text">
+                                                                    <div class="home-title">@rynews.Description</div>
+                                                                    <div class="home-text">@rynews.AddDateTime</div>
+
+                                                                </div>
+                                                            </li>
+                                                      
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                    </div>
+                                </div>
+                            <a href="javascript:void(0)" class="prev"></a>
+                            <a href="javascript:void(0)" class="next"></a>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                @*<div class="row">
+                        @{
+                            foreach (var rynews in rylist)
+                            {
+
+                                <div class="col-sm-6">
+                                    <div class="grid-choose-info">
+                                        <img src="~/Content/sp3ui/images/choose/time.svg" alt="" />
+                                        <a href="/News/NewsShow/@rynews.ID"><h3>@rynews.Title</h3></a>
+                                        <p>@rynews.Description</p>
+                                        <p>@rynews.AddDateTime</p>
+                                    </div>
+                                </div>
+
+                            }
+                        }
+                    </div>*@
+            </div>
+            @*<div class="col-xl-4"></div>*@
+        </div>
+    </div>
+</div>
+
+<!-- CHOOSE US PART END -->
+<!-- COUNTER UP PART START -->
+@*<div class="counter-up">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                    <div class="counter-info text-center">
+                        <span class="counter">22</span> <span>+</span>
+                        <h4>律所历史</h4>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                    <div class="counter-info text-center">
+                        <span class="counter">20000</span> <span>+</span>
+                        <h4>累计受理</h4>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                    <div class="counter-info text-center">
+                        <span class="counter">3000</span> <span>+</span>
+                        <h4>疑难案件</h4>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                    <div class="counter-info text-center">
+                        <span class="counter">6</span> <span>+</span>
+                        <h4>高校专家</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+<!-- COUNTER UP PART END -->
+<!-- ATTORNEYS PART START -->
+<div class="attorneys-part">
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-lg-8">
+                <div class="section-heading-content text-center">
+                    <h2>律师团队介绍</h2>
+                    <span>Incommode so intention defective at convinced.</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @{
+                foreach (var lsnews in lslist)
+                {
+                    <div class="col-lg-3 col-md-6 col-sm-12">
+                        <div class="grid-expert-attorneys">
+                                        <a href="/News/NewsShow/@lsnews.ID" target="_blank"><div class="attorneys-img layerbgc">
+    <img src="@lsnews.PicURL" class="w-100 img-fluid" alt="" />
+</div></a>
+                            <h3>@lsnews.Title</h3>
+                            <span>@lsnews.KeyWord</span>
+                        </div>
+                    </div>
+                }
+            }
+
+
+
+
+        </div>
+    </div>
+</div>
+<!-- ATTORNEYS PART END -->
+<!-- TESTIMONIAL PART START -->
+<div class="testimonial-part">
+    <div class="container">
+        <div class="section-heading-content text-left">
+            <h3>法规速递</h3>
+            <a href="/News/Index?sort=5" class="read-more-btn" style="margin-top:30px;">查看更多... <span class="fas fa-long-arrow-alt-right"></span></a>
+        </div>
+        <div class="row testimonial-slider">
+            @{
+                foreach (var fgnews in fglist)
+                {
+
+                    <div class="col-xl-12 col-12">
+                        <div class="row align-items-center">
+                            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                <div class="clients-img">
+                                    <img src="@fgnews.PicURL" class="w-100 img-fluid" alt="" />
+                                </div>
+                            </div>
+
+                            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+                                <a href="/News/NewsShow/@fgnews.ID">
+                                    <div class="clients-info">
+                                        <h4>@fgnews.Title</h4>
+                                        <span>@fgnews.Author</span>
+                                        <p>
+                                            @fgnews.Description
+                                        </p>
+
+                                    </div>
+                                </a>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+    </div>
+</div>
+<div class="testimonial-part">
+    <div class="container">
+        <div class="section-heading-content text-left">
+            <h3>案例评析</h3>
+            <a href="/News/Index?sort=3" class="read-more-btn" style="margin-top:30px;">查看更多... <span class="fas fa-long-arrow-alt-right"></span></a>
+        </div>
+        <div class="row testimonial-slider">
+            @{
+                foreach (var alnews in allist)
+                {
+
+                    <div class="col-xl-12 col-12">
+                        <div class="row align-items-center">
+                            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                <div class="clients-img">
+                                    <img src="@alnews.PicURL" class="w-100 img-fluid" alt="" />
+                                </div>
+                            </div>
+
+                            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+                                <a href="/News/NewsShow/@alnews.ID">
+                                    <div class="clients-info">
+                                        <h4>@alnews.Title</h4>
+                                        <span>@alnews.Author</span>
+                                        <p>
+                                            @alnews.Description
+                                        </p>
+
+                                    </div>
+                                </a>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+    </div>
+</div>
+<!-- TESTIMONIAL PART END -->
+<!-- BLOG PART START -->
+<div class="blog-part">
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-lg-8">
+                <div class="section-heading-content text-center">
+                    <h2>律所环境</h2>
+                    <span>Incommode so intention defective at convinced.</span>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            @foreach (var hjnews in hjlist)
+            {
+                <div class="col-xl-4 col-md-6">
+
+                    <div class="grid-blog">
+                        <div class="blog-img">
+                            <a href="javascript:;"> <img src="@hjnews.PicURL" class="w-100 img-fluid" alt="" /></a>
+                        </div>
+                        <div class="blog-info">
+                            <a href="javascript:;" class="blog-title">@hjnews.Title</a>
+                        </div>
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+<!-- BLOG PART END -->
+@*<script type="text/javascript">
+    jQuery(".home-banner-slider").slide({
+        mainCell: ".bd ul",
+        effect: "left",
+        autoPlay: false,
+        delayTime: 700
+    });
+</script>*@
+<script type="text/javascript">
+    $(".home-banner-slider").slide({
+        mainCell: ".bd ul",
+        effect: "left",
+        autoPlay: false,
+        delayTime: 700
+    });
+
+</script>

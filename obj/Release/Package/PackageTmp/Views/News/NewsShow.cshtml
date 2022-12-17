@@ -1,0 +1,74 @@
+﻿@model List<Maticsoft.Model.News>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int id = (int)ViewBag.id;
+    Maticsoft.BLL.News nbll = new Maticsoft.BLL.News();
+    var list = nbll.GetModelList("IsTJ=1 and IsLock=1");
+}
+<!--新闻中心详情开始-->
+
+<div class="wrap showWrap">
+    @{
+        foreach (var m in Model)
+        {
+            <div class="col_banner about_banner bgSize" style="background-image:url(/Content/picture/news_banner.jpg);">
+
+                    <div class="inner_index w1200">
+                        @if (m.SortID == 2)
+                        {
+                            <h4>法律资讯</h4>
+                            <p class="en">Legal information</p>
+                        }@if (m.SortID == 3)
+                        {
+                            <h4>权威案例评析</h4>
+                            <p class="en">Analysis of authoritative cases</p>
+                        }@if (m.SortID == 5)
+                        {
+                            <h4>律师说法</h4>
+                            <p class="en">Lawyer's statement</p>
+                        }@if (m.SortID != 2 && m.SortID != 3 && m.SortID != 5 || m.SortID == 0 || m.SortID == null)
+                        {
+                            <h4>新闻中心</h4>
+                            <p class="en">NEWS CENTER</p>
+                        }
+
+                    </div>
+
+            </div>
+
+            <div class="w1200 show">
+
+                <div class="hxywjs_position">
+
+                    <img src="~/Content/picture/show_pos.png" alt="icon" /><a href="/Home/Index">首页</a>>>  <span>新闻中心</span>
+
+                </div>
+
+                <div class="show_txt">
+
+                    <h3 class="show_txt_t">@m.Title</h3>
+
+                    <div class="show_txt_d">@m.Author<br />发布日期：@m.AddDateTime</div>
+
+
+                    <div class="show_txt_p">
+                        <div data-exthumbimage="picture/1-1P1031K154611.jpg&quot;"
+                             data-src="picture/1-1P1031K154611.jpg">
+                            <video width="800" height="" autoplay="autoplay" controls="controls">
+                                <source src="@m.VideoURL" type="video/mp4"></source>
+                            </video>
+                        </div>
+                        @Html.Raw(m.Content)
+                    </div>
+                    <div style="float:right; text-align:match-parent; font-size:inherit;"><a href="@m.PicURL">附件下载：<img src="~/Content/picture/index_hx6.png" alt="" width="40" height="40"></a></div>
+                </div>
+                
+
+            </div>
+
+        }
+    }
+
+</div>
+
+<!--新闻中心详情结束-->

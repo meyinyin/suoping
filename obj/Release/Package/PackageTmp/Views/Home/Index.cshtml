@@ -1,0 +1,992 @@
+﻿
+@{
+    Layout = null;
+    Maticsoft.BLL.About abll = new Maticsoft.BLL.About();
+    var alist = abll.GetModelList("ID=1");
+    Maticsoft.BLL.News nbll = new Maticsoft.BLL.News();
+    var fllist = nbll.GetModelList("IsTJ=1 and IsLock=1 and IsHot=1 and IsTop=1 and SortID=2").Take(2);
+    var qwlist = nbll.GetModelList("IsTJ=1 and IsLock=1 and IsHot=1 and IsTop=1 and SortID=3").Take(2);
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>索平律师事务所</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <!-- css -->
+
+    <link rel="stylesheet" type="text/css" href="~/Content/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/css/style.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/css/owl.carousel.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/css/owl.theme.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/css/jquery.fullPage.css" />
+
+    <!--[if lt IE 9]>
+
+        <script src="~/Content/js/html5shiv.min.js"></script>
+
+        <script src="~/Content/js/respond.min.js"></script>
+
+        <![endif]-->
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            /*Avoid flicker on slides transitions for mobile phones #336 */
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+            position: relative;
+        }
+        .index_f {
+            width: 100%;
+            background: url(@{foreach (var j in alist) { @j.PicURL4} }) no-repeat center;
+                overflow: hidden;
+            mi-n-width: 1370px;
+        }
+        /*优势*/
+        .index_t {
+            width: 100%;
+            background: url(@{foreach (var j in alist) { @j.PicURL5} }) no-repeat 40%;
+            position: relative;
+            overflow: hidden;
+            mi-n-width: 1920px;
+        }
+
+        body {
+            position: relative;
+        }
+
+        .chat-wrapper {
+            float: inherit;
+            z-index: 9999 !important;
+            font-size: 14px;
+            color: #fff;
+        }
+        /*右侧按钮*/
+        .chat-support-btn {
+            position: fixed;
+            display: inline-block;
+            top: 70%;
+            right: 0;
+            margin-top: -70px;
+            width: 120px;
+            /*height: 40px;*/
+            cursor: pointer;
+        }
+
+            .chat-support-btn img {
+                position: absolute;
+                border-radius: 50%;
+            }
+        /* 对话框*/
+        .chat-main {
+            position: fixed;
+            display: none;
+            right: 50px;
+            bottom: 50px;
+            width: 300px;
+            height: 400px;
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, .4);
+        }
+
+        /*对话框头部*/
+        .chat-header {
+            position: relative;
+            padding: 10px;
+            height: 80px;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, .2);
+            background-color: #cc3333;
+        }
+
+            .chat-header a:hover {
+                cursor: pointer;
+            }
+        /*个人信息框*/
+        .header-info-div {
+            display: none;
+            width: 290px;
+            height: 150px;
+            margin: -600px 0 0 -300px;
+            border-radius: 4px;
+            background-image: url(/Content/picture/flfw04.jpg);
+        }
+
+        .header-info-h2 {
+            display: inline-block;
+            margin: 15px 0 0 25px;
+        }
+
+        .header-info-span {
+            position: absolute;
+            top: 45px;
+            left: -276px;
+        }
+
+        .chat-close {
+            position: absolute;
+            top: -15px;
+            right: 5px;
+            /* padding: 2px; */
+            font-size: 40px;
+            /* transform: rotate(90deg); */
+            /* background-image:url(/Content/picture/icon_close.png); */
+            cursor: pointer;
+        }
+
+        .chat-service-info {
+            position: relative;
+            top: 50%;
+            margin-top: -20px;
+            height: 40px;
+        }
+
+        .chat-service-img {
+            display: inline-block;
+            margin: 0 10px 0 20px;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            vertical-align: middle;
+            color: #000;
+            border-radius: 50%;
+            box-shadow: 1px 1px 4px rgba(0, 0, 0, .2);
+            background-image: url(/Content/picture/fwpz_2.png);
+        }
+
+        .chat-service-title {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .chat-service-detail {
+            font-size: 12px;
+        }
+
+        /*对话框内容*/
+        .chat-contain {
+            overflow-y: auto;
+            padding: 10px;
+            height: 380px;
+            word-wrap: break-word;
+            background-color: #f9f9f9;
+        }
+
+        .chat-text {
+            display: inline-block;
+            position: relative;
+            padding: 10px;
+            max-width: 120px;
+            color: black;
+            white-space: pre-wrap;
+            border: 1px solid #ffff7d;
+            border-radius: 4px;
+            background-color: #ffff7d;
+            box-sizing: border-box;
+        }
+
+        .chat-time {
+            color: #939393;
+            font-size: 12px;
+        }
+
+        .chat-service-contain {
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+            .chat-service-contain .chat-time {
+                margin: 0 0 0 37px;
+            }
+
+        .chat-address {
+            display: inline-block;
+            max-width: 100px;
+            white-space: pre-wrap;
+        }
+
+        .chat-service-text {
+            margin-left: 40px;
+        }
+
+            .chat-service-text:before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: -48px;
+                width: 35px;
+                height: 36px;
+                border: 1px solid transparent;
+                background-image: url(/Content/picture/fwpz_2.png);
+                border-radius: 50%;
+                -webkit-transform: translate(0, -50%);
+                transform: translate(0, -50%);
+            }
+
+        .chat-you-contain {
+            /*margin-bottom: 10px;*/
+            text-align: right;
+            /* float:right; */
+        }
+
+            .chat-you-contain .chat-time {
+                margin: 0 20px 0 0;
+            }
+
+        .chat-you-text {
+            margin-right: 20px;
+            text-align: left;
+        }
+
+            .chat-you-text:after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                right: -10px;
+                width: 0;
+                height: 0;
+                border-top: 6px solid transparent;
+                border-bottom: 6px solid transparent;
+                border-left: 10px solid #ffff7d;
+                -webkit-transform: translate(0, -50%);
+                transform: translate(0, -50%);
+            }
+        /*客服对话框底部与输入*/
+        .chat-submit {
+            position: relative;
+            padding: 10px;
+            height: 100px;
+            color: #000;
+            word-wrap: break-word;
+            border-top: 1px solid #ddd;
+            box-sizing: border-box;
+            background-color: #f9f9f9;
+        }
+
+        /*空输入提示*/
+        .chat-hint {
+            display: none;
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            padding: 2px;
+            width: 140px;
+            height: 18px;
+            font-size: 12px;
+            text-align: center;
+            line-height: 18px;
+            border: 1px solid #ddd;
+            box-shadow: 1px 1px 4px rgba(0, 0, 0, .4);
+            background-color: #fff;
+        }
+
+        .chat-hint-icon {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            margin-right: 5px;
+            font-size: 14px;
+            font-style: italic;
+            font-weight: 700;
+            vertical-align: middle;
+            line-height: 18px;
+            color: #fff;
+            border-radius: 50%;
+            background-color: #5d94f3
+        }
+
+        .chat-hint-text {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        /*输入框*/
+        .chat-input-text {
+            overflow-y: auto;
+            display: inline-block;
+            padding: 5px 10px;
+            width: 100%;
+            height: 70px;
+            vertical-align: middle;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            resize: none;
+            box-sizing: border-box;
+        }
+
+        .chat-input-tools {
+            flex: auto;
+            position: absolute;
+            width: 100%;
+            height: 30px;
+            margin: -18px 0 0 200px;
+            vertical-align: middle;
+        }
+
+        button {
+            width: 20%;
+            height: 28px;
+            border-radius: 4px;
+            background-color: #cc3333;
+            margin: 5px 0;
+        }
+
+        .chat-input-tools > button:hover {
+            cursor: pointer;
+        }
+
+        .simulator-text {
+            display: inline-block;
+            width: 200px;
+            height: 260px;
+            overflow-y: auto;
+            padding: 10px 10px;
+            vertical-align: middle;
+            color: #000;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            resize: none;
+            box-sizing: border-box;
+        }
+
+        .chat-simulator {
+            display: none;
+            position: absolute;
+            left: -230px;
+            top: 200px;
+            width: 200px;
+            height: 300px;
+            border: 1px solid #cc3333;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            box-shadow: 0 0 5px rgba(0, 0, 0, .4);
+        }
+
+        .simulator-btn {
+            float: right;
+            padding: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="section-group" id="dowebok">
+        <div class="section">
+
+            <!--导航条-->
+
+            <div class="header">
+                <div class="header_n clearfix">
+                    <div class="logo fl"><a href="/Home/Index"><img src="~/Content/picture/logo.png" alt="" width="200" height="57"></a></div>
+                    <ul class="fl clearfix">
+                        <li><a href="/Home/Index" class="activeo">首 页</a></li>
+
+                        <li><a href="/Home/About">关于我们 </a></li>
+
+                        <li><a href="/News/Index/?sort=2">法律咨询</a></li>
+
+                        <li><a href="/News/Index/?sort=3">权威案例评析</a></li>
+
+                        <li><a href="/News/Index/?sort=5">律师说法</a></li>
+
+                        <li><a href="/Home/Contact">联系我们</a></li>
+                    </ul>
+                    <div class="tel fr">
+                        <img src="~/Content/picture/tel.png" alt="tel" width="33" height="33"> @{foreach (var n in alist)
+                            { @n.Phone} }
+                    </div>
+                </div>
+                <span class="line"></span>
+            </div>
+
+            <!--导航条-->
+            <!-- banner -->
+
+            <div class="bannerWrap">
+                <div class="index_banner">
+                    <div class="hd">
+                        <ul>
+                            <li><span></span></li>
+                            <li><span></span></li>
+                            <li><span></span></li>
+                        </ul>
+                    </div>
+                    <div class="bd">
+                        <ul>
+                            <li style="background-image:url(/Content/picture/bj002.jpg)" class="item bgSize"><a href="javascript:;" class="banner01"> <img src="~/Content/picture/banner01_wz01.png" alt="创业虽苦，坚持很酷。" title="创业虽苦，坚持很酷。" class="img1" /> <img src="~/Content/picture/banner01_wz02.png" alt="阳光奥美集团，伴你一路前行。" title="阳光奥美集团，伴你一路前行。" class="img2" /> </a> </li>
+                            <li style="background-image:url(/Content/picture/bj001.png)" class="item bgSize"><a href="javascript:;" class="banner01"> <img src="~/Content/picture/banner02_wz01.png" alt="创业虽苦，坚持很酷。" title="创业虽苦，坚持很酷。" class="img1" /> <img src="~/Content/picture/banner02_wz02.png" alt="阳光奥美集团，伴你一路前行。" title="阳光奥美集团，伴你一路前行。" class="img2" /></a> </li>
+                            <li style="background-image: url(/Content/picture/bj003.png)" class="item bgSize"><a href="javascript:;" class="banner01"> <img src="~/Content/picture/banner03_wz01.png" alt="创业虽苦，坚持很酷。" title="创业虽苦，坚持很酷。" class="img1" /> <img src="~/Content/picture/banner03_wz02.png" alt="阳光奥美集团，伴你一路前行。" title="阳光奥美集团，伴你一路前行。" class="img2" /></a> </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="down"><img src="~/Content/picture/down.png" alt="向下点击" class="img1" /><img src="~/Content/picture/down.png" alt="向下点击" class="img2" /></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="index_t">
+                <div class="index_t_o clearfix">
+                    @{
+                        foreach (var a in alist)
+                        {
+                            <ul class="fl">
+                                <li class="li1"><img src="@a.PicURL12" alt="" width="42" height="39"></li>
+                                <li class="li2">@a.Title7 </li>
+                                <li class="li3">
+                                    @a.JDtxt10
+                                </li>
+                            </ul>
+                            <ul class="fl mar0">
+                                <li class="li1"><img src="@a.PicURL11" alt="专业团队" width="46" height="34"></li>
+                                <li class="li2">@a.Title5</li>
+                                <li class="li3">
+                                    @a.JDtxt9
+                                </li>
+                            </ul>
+                            <ul class="fl">
+                                <li class="li1"><img src="@a.PicURL10" alt="多元服务" width="42" height="42"></li>
+                                <li class="li2">@a.Title4 </li>
+                                <li class="li3">
+                                    @a.JDtxt8
+                                </li>
+                            </ul>
+                            <ul class="fl mar0">
+                                <li class="li1"><img src="@a.PicURL9" alt="规模宏大" width="42" height="42"></li>
+                                <li class="li2">@a.PicURL13 </li>
+                                <li class="li3">
+                                    @a.JDtxt7
+                                </li>
+                            </ul>
+                        }
+                    }
+                </div>
+                <div class="index_t_s">
+                    <p>
+                        OUR <br>
+                        ADVANTAGE
+                    </p>
+                    <span>我们的优势</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="index_f">
+
+                <div class="index_f_lg">
+                    <div class="index_f_lg_s clearfix">
+                        <div class="z fl">
+                            <p>法律咨询</p>
+                            <span>NEWS INFORMATION</span>
+                        </div>
+                        <a href="/News/Index/?sort=2" class="y fr clearfix">查看全部<img src="~/Content/picture/index_yj.png" alt="yj" class="fr"></a>
+                    </div>
+                    @{
+                        foreach (var m in fllist)
+                        {
+                            <div class="index_f_lg_x clearfix" @m.ID>
+                                <div class="le fl">
+                                    @*<p>24</p>*@
+                                    <span>@m.AddDateTime</span>
+                                </div>
+                                <div class="ri fl">
+                                    <a href="/News/NewsShow/@m.ID">@m.Title</a>
+                                    <p>@m.Description</p>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+
+                <div class="index_f_lg index_f_lgs">
+                    <div class="index_f_lg_s clearfix">
+                        <div class="z fl">
+                            <p>权威案例评析</p>
+                            <span>INDUSTRY NEWS</span>
+                        </div>
+                        <a href="/News/Index/?sort=2" class="y fr clearfix">查看全部<img src="~/Content/picture/index_yj.png" alt="yj" class="fr"></a>
+                    </div>
+
+                    @{
+                        foreach (var mm in qwlist)
+                        {
+                            <div class="index_f_lg_x clearfix" @mm.ID>
+                                <div class="le fl">
+                                    @*<p>24</p>*@
+                                    <span>@mm.AddDateTime</span>
+                                </div>
+                                <div class="ri fl">
+                                    <a href="/News/NewsShow/@mm.ID">@mm.Title</a>
+                                    <p>@mm.Description</p>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            @{ foreach (var b in alist)
+                {
+                    <div class="index_w">
+                        <div class="index_o_o">
+                            <p>核心业务</p>
+                            <span>PRIMARY  BUSINESS</span>
+                        </div>
+                        <div class="index_o_s">
+                            <ul class="clearfix">
+                                <li class="fl">
+                                    <div><img src="@b.PicURL1" alt="@b.Title1" width="62" height="62"></div>
+                                    <span>@b.Title1</span>
+                                    <p>@b.JDtxt1</p>
+                                </li>
+
+                                <li class="fl">
+                                    <div><img src="@b.PicURL2" alt="@b.Title2" width="55" height="56"></div>
+                                    <span>@b.Title2</span>
+                                    <p>@b.JDtxt2</p>
+                                </li>
+                                <li class="fl">
+                                    <div><img src="@b.PicURL3" alt="@b.Title3" width="62" height="48"></div>
+                                    <span>@b.Title3</span>
+                                    <p>@b.JDtxt3</p>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="footer">
+                            <div class="footer_o clearfix">
+                                <div class="footer_o_o fl"> <img src="~/Content/picture/logo.png" alt="logo" width="200" height="57"> </div>
+                                <div class="footer_o_t fl">
+                                    <p>全国热线</p>
+                                    <span>@b.Phone</span>
+                                </div>
+                                <div class="footer_o_t footer_o_s fl">
+                                    <p>商务合作</p>
+                                    <span>@b.avg4</span>
+                                </div>
+                                <div class="footer_o_f fr"> <img src="@b.APicURL" alt="" width="140"> </div>
+                            </div>
+                            <div class="footer_t"> 网站备案：苏ICP12345678 版权所有：某某财务公司注册模板 COPYRIGHT All rights reserved  </div>
+                        </div>
+
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+
+    <div class="chat-wrapper">
+        <div id="btn_open" class="chat-support-btn" draggable="true">
+            <!-- 聊天窗口缩小后的头像图标 -->
+            <img src="~/Content/picture/10bb9bf94b245f9c1cfee692dad8003.png"></img>
+        </div>
+        <div class="chat-main" draggable="true">
+            <div class='chat-simulator'>
+                <p id="chat_hint" class="chat-hint"><span class="chat-hint-icon">!</span><span class="chat-hint-text" style='color:black'>发送内容不能为空</span></p>
+                <textarea class='simulator-text' autofocus placeholder='请写下你希望我对你说的话,按enter键提交（shift+enter键换行）。'></textarea>
+                <div class='simulator-btn'>
+                    <button class='simulator-submmit'>提交</button>
+                    @*<button class='simulator-close'>关闭</button>*@
+                </div>
+            </div>
+            <div class="chat-header">
+                <i id="btn_close" class="chat-close"><img src="~/Content/picture/cuo.png"></i>
+                <div class="chat-service-info">
+                    <a class="chat-service-img"></a>
+                    <div class="chat-service-title">
+                        <p class="chat-service-name">客服1</p>
+                        <p class="chat-service-detail">我是您的专属客服</p>
+                    </div>
+                </div>
+            </div>
+            <div id="chat_contain" class="chat-contain">
+                <!-- <p class="chat-service-contain">
+                                <span class="chat-text chat-service-text">您好</span>
+                            </p> -->
+            </div>
+            <div class="chat-submit">
+                <p id='chatHint' class="chat-hint"><span class="chat-hint-icon">!</span><span class="chat-hint-text">发送内容不能为空</span></p>
+                <textarea id="chat_input" class="chat-input-text" autofocus placeholder="请输入您想对我说的话，按Enter键发送（shift+Enter换行）。"></textarea>
+                <div class="chat-input-tools">
+                    <button class="chat-input-button">发送</button>
+                    @*<button class="chat-service-simulator">模拟</button>*@
+                    @*<button class="chat-close-button">关闭</button>*@
+                </div>
+            </div>
+            <div class="header-info-div">
+                <h2 class="header-info-h2">客服1</h2>
+                <span class="header-info-span">我是您的专属客服</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- js -->
+
+    <script src="~/Content/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="~/Content/js/jquery.min.js"></script>
+    <script type="text/javascript" src="~/Content/js/jquery.mousewheel.min.js"></script>
+    <script type="text/javascript" src="~/Content/js/jquery.fullPage.js"></script>
+    <script type="text/javascript" src="~/Content/js/jquery.SuperSlide.2.1.1.js"></script>
+    <script type="text/javascript" src="~/Content/js/owl.carousel.min.js"></script>
+    <script type="text/javascript" src="~/Content/js/style2.js"></script>
+    <script type="text/javascript" src="~/Content/js/fullpagecode.min.js"></script>
+    <script type="text/javascript" src="~/Content/Gmile/axios.js"></script>
+    <script type="text/javascript" src="~/Content/Gmile/store.js"></script>
+    <script type="text/javascript" src="~/Content/Gmile/axios.js"></script>
+    <script type="text/javascript" src="~/Content/Gmile/store.js"></script>
+    <script type="text/javascript" src="~/Content/Gmile/goeasy.js"></script>
+    <script type="text/javascript" src="~/Content/Gmile/goeasyHanele.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vant@2.12/lib/vant.min.js"></script>
+    <script type="text/javascript">
+        window.onload = async () => {
+            $(function () {
+
+                $('#dowebok').fullpage({
+
+                    'navigation': true,
+
+                });
+
+            });
+            $(".index_f_lg_s .y").hover(function (e) {
+                $(this).children("img").attr("src", "../../Content/picture/index_yj.png")
+            }, function () {
+                $(this).children("img").attr("src", "../../Content/picture/index_yj.png")
+            })
+
+            let userChannel = await setChannel()
+            console.log(userChannel)
+        }
+
+    </script>
+
+    <script type="text/javascript">
+        var d = document;
+        let userChannel = ''
+        let msgList = []
+        let serverLogon = false
+        let allMsgList = []
+        let isFrist = true
+
+        async function getChannel(){
+            userChannel = await setChannel()
+
+        }
+        getChannel()
+
+        function creatTalkAboutMessageList(msgList, userChannel) {
+            msgList.forEach(it => {
+                let GState = it.GState //判断是否为服务端
+                let time = GetDate(it.GDate)
+                if (!GState) {
+                    createInfo('you', it.GContent, time);
+                } else {
+                    createInfo('service', it.GContent, time);
+                }
+            })
+        }
+
+        /*显示对话窗口*/
+        async function openBody(msgList) {
+            let toast = vant.Toast.loading({
+                message: '获取历史记录',
+                forbidClick: true,
+                loadingType: 'spinner',
+                duration: 0
+            });
+            msgList = await getMsglist()
+            creatTalkAboutMessageList(msgList, userChannel)
+            vant.Toast.clear();
+
+
+           function msgCb(messageInfo) {
+                let code = messageInfo.code
+               if (code === 'serverLogon') {
+                   serverLogon = true
+                   setTimeout(() => {
+                       serverLogon = false
+                   },800)
+               }
+               if (code === 'severMsg') {
+                   console.log(messageInfo)
+                   let myUserID = getLocalSt('userChannel')
+                   if (messageInfo.userID === myUserID) {
+                       let msgContent = messageInfo.msgContent
+                       let time = GetDate(`/Date(${messageInfo.time})/`)
+                       createInfo('service', msgContent, time);
+                   }
+               }
+               if (code === 'hasUser') {
+                   let channel = getLocalSt('userChannel')
+                   let msgInfo = {
+                       code: 'userLogin',
+                       ip: channel
+                   }
+                   msgInfo = JSON.stringify(msgInfo)
+                   publish(msgInfo, 'SUOPINGALLMSGCHANNEL')
+               }
+            }
+            createdGoEasy(msgCb)
+            receiveImMsg('SUOPINGALLMSGCHANNEL', msgCb)
+
+          @{
+                Session["Chat"] = true;
+          }
+            $('.chat-support-btn').css({ 'display': 'none' });
+            $('.chat-main').css({ 'display': 'inline-block', 'height': '0' });
+            let url = window.location.href
+            if (url.includes('/Home/Contact')) {
+                $('.chat-main').animate({ 'height': '562px' })
+            } else {
+                $('.chat-main').animate({ 'height': '600px' })
+            }
+        }
+            @if((bool)Session["Chat"] == true)
+            {
+                @*<script>openBody();</script>*@
+            }
+
+
+        // 模拟一些后端传输数据
+        var serviceData = {
+            'robot': {
+                'chat': ['这个厉害！', '这个网站您看一下www.baidu.com', '稍等哦~', '嘿嘿', '百度一下？www.baidu.com', '嗯嗯嗯'],
+            }
+        };
+        var chatMain = $('.chat-main'),
+            chatHint = $('#chatHint'),
+            chat_Hint = $('#chat_hint'),
+            headerInfoDiv = $('.header-info-div');
+            chat_main = d.querySelector('.chat-main');
+            chatInput = d.querySelector('#chat_input'),
+            chatContain = d.querySelector('#chat_contain'),
+            btnOpen = d.querySelector('#btn_open'),
+            btnClose = d.querySelector('#btn_close');
+
+            /*鼠标在头像上*/
+            $('.chat-service-img').mouseenter(
+                function () {
+                    headerInfoDiv.fadeIn(1000);
+                }
+            )
+            $('.chat-service-img').mouseleave(
+                function () {
+                    headerInfoDiv.fadeOut();
+                }
+            )
+            /*关闭对话框*/
+        function closeChat() {
+                clearMsgList()
+                $('.chat-main').animate({ 'height': '0' });
+                $('.chat-main').css({ 'display': 'none' });
+                $('.chat-support-btn').css({ 'display': 'inline-block' });
+                disconnectGoEasy()
+            }
+
+            btnOpen.addEventListener('click',async function (e) {/*点击头像打开聊天窗口*/
+                e = e || window.event;
+                openBody();
+            })
+
+            btnClose.addEventListener('click', closeChat)
+
+        /*创建新消息框*/
+        function createInfo(name, value,time) {
+            var chatTime = new Date();
+            chatTime = chatTime.toLocaleTimeString();
+            var nodeP = d.createElement('p'),
+                nodeSpan = d.createElement('span')
+            nodeTime = d.createElement('p');
+            value = value.replace(/(((ht|f)tps?):\/\/)?([A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@@[\]\':+!]*([^<>\"\"])*)/g,
+                function (content) {
+                return "<a href='http://" + content + "' class='chat-address' target='view_window' style='color:#6666cc '>" + content + '</a>';;
+            });
+            nodeP.classList.add('chat-' + name + '-contain');
+            nodeSpan.classList.add('chat-' + name + '-text', 'chat-text');
+            nodeTime.classList.add('chat-time');
+            nodeSpan.innerHTML = value;
+            nodeTime.innerHTML = time === null ? 'time_' : time;
+            nodeP.appendChild(nodeTime);
+            nodeP.appendChild(nodeSpan);
+            chatContain.appendChild(nodeP);
+            chatContain.scrollTop = chatContain.scrollHeight;
+        }
+
+
+        var timer,
+            timerId,
+            flagInput = false;
+        shiftDown = false;  // 判断是否按住shift键
+
+        function chatHintNull(chatHint) {//空输入提示
+            setTimeout(function () {
+                chatHint.fadeIn();
+                clearTimeout(timerId);
+                timer = setTimeout(function () {
+                    chatHint.fadeOut();
+                }, 1000);
+            }, 10);
+            timerId = timer;
+        };
+        /*监控是否按下enter*/
+        function isEnter(Input, Hint, type, e) {
+            e = e || window.event;
+            if (e.keyCode == 16) {//按住shift键
+                shiftDown = true;
+            }
+            if (e.keyCode == 13) {
+
+                if (shiftDown == true) {
+                    shiftDown = false;
+                    return true;
+                }
+                else if (shiftDown == false && Input.value == '') {
+                    Hint();
+                    return true;
+                }
+                else {
+                    e.preventDefault();
+                    //createInfo(type, Input.value);
+                    //submityouText(Input.value);
+                    //Input.value = null;
+                    //Input.focus();
+                    isSendMsg()
+                }
+            }
+        }
+
+        chatInput.addEventListener('keydown', function (e) {/*输入框按enter*/
+            e = e || window.event;
+            isEnter(chatInput, chatHintNull, 'you', e);
+        })
+
+        async function isSendMsg() {
+            var chatTime = new Date();
+            chatTime = chatTime.toLocaleTimeString();
+            //chatTime = GetDate(`/Date(${chatTime})/`)
+            let res = await sendMsg(chatInput.value)
+            if (res.isOK) {
+                let channel = getLocalSt('userChannel')
+                let msgInfo = {
+                    code: 'userLogin',
+                    ip: channel
+                }
+                msgInfo = JSON.stringify(msgInfo)
+                publish(msgInfo,'SUOPINGALLMSGCHANNEL')
+
+
+                let contentInfo = {
+                    code: 'userMsg',
+                    content: chatInput.value,
+                    time: new Date().getTime(),
+                    channel
+                }
+                contentInfo = JSON.stringify(contentInfo)
+                publish(contentInfo, 'SUOPINGALLMSGCHANNEL')
+
+                createInfo('you', chatInput.value,chatTime);
+                chatInput.value = null;
+                chatInput.focus();
+                setTimeout(() => {
+                    if (!serverLogon) {
+                        submityouText(chatInput.value);
+                    }
+                },800)
+            }
+        }
+
+        /*为按钮绑定事件*/
+        $('.chat-input-button').click(async function () {/*消息框发送*/
+
+            if (chatInput.value != '') {
+                isSendMsg()
+            }
+            else {
+                chatHintNull(chatHint);
+            }
+        });
+        /*模拟后台消息*/
+        var chatSim = $('.chat-simulator'),
+            sim_Text = d.querySelector('.simulator-text');
+        simText = $('.simulator-text');
+        $('.chat-service-simulator').click(
+            function () {
+                chatSim.fadeIn(500);
+                simText.focus();
+            }
+        );
+        $('.simulator-submmit').click(function () {
+            if (simText.val() == '') {
+                chatHintNull(chat_Hint);
+            }
+            else {
+                createInfo('service', simText.val());
+                simText.val('');
+                simText.focus();
+            }
+        });
+        /*模拟的输入框enter键判断*/
+        sim_Text.addEventListener('keydown', function (e) {
+            e = e || window.event;
+            isEnter(sim_Text, chatHintNull, 'service', e);
+        })
+        $('.simulator-close').click(function () {
+            chatSim.fadeOut();
+            simText.val('');
+            simText.focus();
+        });
+
+        /*关闭按钮*/
+        $('.chat-close-button').click(
+            function () {
+                if (confirm("不再聊会儿吗？")) {
+                    window.close();
+                }
+                else { }
+            }
+        );
+        /*按钮特效*/
+        var buttons = $('button');
+        buttons.each(function (i) {
+            $(this).mouseenter(function () {
+                buttons.eq(i).fadeTo('slow', 0.8);
+            });
+        }
+        )
+        buttons.each(function (i) {
+            $(this).mouseleave(function () {
+                buttons.eq(i).fadeTo('slow', 1);
+            });
+        }
+        )
+
+        function submityouText(text) {
+
+            // 模拟后端回复
+            //var num = Math.random() * 10;
+            //if (num <= 7) {
+            //    getServiceText(serviceData);
+            //}
+            var chatTime = new Date();
+            chatTime = chatTime.toLocaleTimeString();
+            createInfo('service', '客服未在线，请稍后再试',chatTime);
+        }
+
+        //function getServiceText(data) {/*已定义后台消息框*/
+        //    var serviceText = data.robot.chat,
+        //        i = Math.floor(Math.random() * serviceText.length);
+        //    createInfo('service', serviceText[i]);
+        //}
+    </script>
+</body>

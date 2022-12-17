@@ -1,0 +1,128 @@
+﻿@model List<Maticsoft.Model.Product>
+@{
+    ViewBag.Title = "Home Page";
+    Maticsoft.BLL.Product pbll = new Maticsoft.BLL.Product();
+    var list = pbll.GetModelList("IsTJ=1 and IsLock=1");
+}
+<style>
+    .cimg {
+        max-width: 420px;
+        height: 300px;
+    }
+    .title-h {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 8;
+        -webkit-box-orient: vertical;
+    }
+</style>
+<div class="page met-showproduct pagetype1 animsition" style="padding-bottom:50px;">
+    <div class="met-showproduct-head">
+        <div class="container">
+            @{
+                foreach (var m in Model)
+                {
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class='met-showproduct-list fngallery text-center ' id="met-imgs-carousel">
+                                <div class='slick-slide lg-item-box' data-src="@m.PicURL1"
+                                     data-exthumbimage="@m.PicURL1">
+                                    <span>
+                                        <img src="@m.PicURL1" data-src='@m.PicURL1'
+                                             class=" cimg" alt="" />
+                                    </span>
+                                </div>
+                                <div class='slick-slide lg-item-box' data-src="@m.PicURL2"
+                                     data-exthumbimage="@m.PicURL2">
+                                    <span>
+                                        <img src="@m.PicURL2" data-src='@m.PicURL2'
+                                             class=" cimg" alt="" />
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5 product-intro">
+                            <h1 class='font-weight-300'>
+                                @m.Title
+                            </h1>
+                            <p class="description title-h">
+                                @m.Description
+                            </p>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+    <div class="met-showproduct-body">
+        <div class="container">
+            <div class="row no-space">
+                <div class="col-md-9 product-content-body">
+                    @{
+                        foreach (var n in Model)
+                        {
+                            <div class="row">
+                                <div class="panel product-detail">
+                                    <div class="panel-body">
+                                        <ul class="nav nav-tabs nav-tabs-line met-showproduct-navtabs affix-nav">
+                                            <li class="active">
+                                                <a data-toggle="tab" href="#product-details" data-get="product-details">
+                                                    详细信息
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="tab-pane met-editor lazyload clearfix animation-fade active"
+                                                 id="product-details">
+                                                <div>
+                                                    <img style="width:810px;max-height:370px;" alt="@n.Title" src="@n.PicURL" />
+                                                    <br />
+                                                    @Html.Raw(n.Info)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+                <!--右侧开始-->
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="panel product-hot">
+                            <div class="panel-body">
+                                <h2 class="margin-bottom-15 font-size-16 font-weight-300">
+                                    热门推荐
+                                </h2>
+                                <ul class="blocks-2 blocks-sm-3 mob-masonry" data-scale='1'>
+                                    <!--string(7) "product" -->
+                                    @{
+                                        foreach (var i in list)
+                                        {
+                                            <li @i.ID>
+                                                <a href="/Product/ProductShow/@i.ID" class="img"
+                                                   title="西府海棠">
+                                                    <img data-original="@i.PicURL" class="cover-image"
+                                                         style='height:200px;' alt="@i.Title">
+                                                </a>
+                                                <a href="/Product/ProductShow/@i.ID" class="txt"
+                                                   title="@i.Title">
+                                                    @i.Title
+                                                </a>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--右侧结束-->
+            </div>
+        </div>
+    </div>
+</div>
+
+

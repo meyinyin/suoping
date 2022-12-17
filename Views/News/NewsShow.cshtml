@@ -1,0 +1,55 @@
+﻿@model List<Maticsoft.Model.News>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int id = (int)ViewBag.id;
+    Maticsoft.BLL.News nbll = new Maticsoft.BLL.News();
+    var list = nbll.GetModelList("IsTJ=1 and IsLock=1");
+}
+
+<!-- PAGE TITLE PART START -->
+<div class="page-title">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                @{
+                    foreach (var m in Model)
+                    {
+                        <div class="page-title-content text-center">
+                            <h2>@m.Title</h2>
+                            <h4>@m.Author</h4>
+                            <a href="javascript:;">@m.AddDateTime</a>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<!-- PAGE TITLE PART END -->
+<!-- PRATICE DETAILS PART START -->
+<div class="pratice-details-part">
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10">
+                @{
+                    foreach (var a in Model)
+                    {
+                        <div class="pratice-details-content">
+                            <img src="@a.VideoURL" class="w-100 img-fluid" alt="" />
+
+                            @Html.Raw(a.Content)
+                        </div>
+
+                        @*if (@a.VideoURL != null && @a.VideoURL != "")
+                        {
+                            <video width="100%" height="" autoplay="autoplay" controls="controls">
+                                <source src="@a.VideoURL" type="video/mp4"></source>
+                            </video>
+                        }*@
+                    }
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

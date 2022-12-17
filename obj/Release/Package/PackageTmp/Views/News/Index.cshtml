@@ -1,0 +1,100 @@
+﻿@model List<Maticsoft.Model.News>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<!--新闻中心开始-->
+
+<div class="wrap">
+
+    <div class="col_banner about_banner bgSize" style="background-image:url(/Content/picture/news_banner.jpg);">
+
+        <div class="inner_index w1200">
+            @if (ViewBag.SortID == 2)
+            {
+                <h4>法律资讯</h4>
+                <p class="en">Legal information</p>
+            }@if (ViewBag.SortID == 3)
+            {
+                <h4>权威案例评析</h4>
+                <p class="en">Analysis of authoritative cases</p>
+            }@if (ViewBag.SortID == 5)
+            {
+                <h4>律师说法</h4>
+                <p class="en">Lawyer's statement</p>
+            }@if (ViewBag.SortID != 2 && ViewBag.SortID != 3 && ViewBag.SortID != 5 || ViewBag.SortID == 0 || ViewBag.SortID == null)
+            {
+                <h4>新闻中心</h4>
+                <p class="en">NEWS CENTER</p>
+            }
+        </div>
+
+    </div>
+
+    <div class="w1200 news">
+
+        <!-- title -->
+
+        <ul class="news_t"><li class="active"><a href="">法律动态</a><span class="line"></span></li><li><a href="">行业新闻</a><span class="line"></span></li></ul>
+
+        <!-- content -->
+
+        <ul class="news_item clearfix">
+            @{
+                foreach (var m in Model)
+                {
+                    <li>
+                        <a href="/News/NewsShow/@m.ID">
+
+                            <div class="fl date">@m.AddDateTime </div>
+
+                            <div class="fr txt">
+
+                                <h5>@m.Title</h5>
+
+                                <p>@m.Description</p>
+
+                            </div>
+
+                        </a>
+                    </li>
+                }
+            }
+        </ul>
+
+        <ul class="pagination clearfix">
+
+            <li><a href="?page=@ViewBag.PageCounts@ViewBag.Str"><<</a></li>
+
+            @for (int page = 1; page <= (int)ViewBag.PageCount; page++)
+            {
+                if (((int)ViewBag.CurrentPage) == page)
+                {
+                    <li><a class="active" href="?page=@page@ViewBag.Str">@page</a></li>
+                }
+                else
+                {
+                    <li><a href="?page=@page@ViewBag.Str">@page</a></li>
+                }
+            }
+
+            <li><a href="?page=@ViewBag.PageCount@ViewBag.Str">>></a></li>
+
+        </ul>
+
+    </div>
+
+</div>
+
+<!--新闻中心结束-->
+<script type="text/javascript">
+
+    $(window).load(function () {
+
+        $(".pagination li:first-child").addClass("prev")
+
+        $(".pagination li:last-child").addClass("next")
+
+    })
+</script>

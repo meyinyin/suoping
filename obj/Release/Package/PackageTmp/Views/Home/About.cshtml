@@ -1,0 +1,150 @@
+﻿@model List<Maticsoft.Model.About>
+@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<style>
+
+        .about_t .about_tit {
+            text-align: right;
+            margin-right: 40px;
+            margin-top: -24px;
+        }
+
+        .about_t .about_txt {
+            margin-top: 48px;
+        }
+
+            .about_t .about_txt p {
+                color: #555;
+                font-size: 14px;
+                width: 695px;
+                margin-left: 485px;
+                text-indent: 30px;
+                line-height: 28px;
+                text-align: justify;
+                margin-right: 36px;
+            }
+</style>
+<!--关于我们开始-->
+
+<div class="wrap">
+
+    <div class="col_banner about_banner bgSize" style="background-image:url(/Content/picture/gywm_banner.jpg);">
+
+        <div class="inner_index w1200">
+
+            <h4>关于我们</h4>
+
+            <p class="en">ABOUT US</p>
+
+        </div>
+
+    </div>
+    @{
+        foreach (var m in Model)
+        {
+            <div class="about_t clearfix" style="width: 1219px; height: 454px; background: url(@m.PicURL) no-repeat center top; margin: auto; margin-top: 110px;">
+
+                <div class="about_tit fr" ><h3>团队简介</h3><p>Group Profile</p></div>
+
+                <div class="about_txt fr">
+
+                        <p>
+
+                            @Html.Raw(m.Description)
+                        </p>
+
+                </div>
+
+            </div>
+
+            <div class="about_s clearfix">
+
+                <dl class="dlo">
+
+                    <p></p>
+
+                    <li><img src="@m.PicURL12"  width="85" height="85"></li>
+
+                    <dd>
+
+                        <span>@m.Title7</span>
+
+                        <p>@m.JDtxt10</p>
+
+                    </dd>
+
+                </dl>
+
+                <dl class="dlt">
+
+                    <p></p>
+
+                    <li><img src="@m.PicURL11" width="85" height="85"></li>
+
+                    <dd>
+
+                        <span>@m.Title5</span>
+
+                        <p>@m.JDtxt9</p>
+
+                    </dd>
+
+                </dl>
+
+                <dl class="dls">
+
+                    <p></p>
+
+                    <li><img src="@m.PicURL10" width="85" height="85"></li>
+
+                    <dd>
+
+                        <span>@m.Title4</span>
+
+                        <p>@m.JDtxt8</p>
+
+                    </dd>
+
+                </dl>
+
+                <dl class="dlf">
+
+                    <p></p>
+
+                    <li><img src="@m.PicURL9" width="85" height="85"></li>
+
+                    <dd>
+
+                        <span>@m.PicURL13</span>
+
+                        <p>@m.JDtxt7</p>
+
+                    </dd>
+
+                </dl>
+
+            </div>
+
+            <div class="about_f w1080">
+
+                <div class="about_tit"><h3>总部环境</h3><p>The company environment</p></div>
+
+                <div class="x">
+
+                    <img title="总部环境" alt="总部环境" src="@m.PicURL8">
+
+                </div>
+
+            </div>
+
+        }
+    }
+
+
+
+</div>
+
+<!--关于我们结束-->

@@ -1,0 +1,126 @@
+﻿@model List<Maticsoft.Model.Product>
+@{
+    ViewBag.Title = "Home Page";
+
+}
+<style>
+    .overlay {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        /*max-width: 300px;
+        height: 200px;*/
+        margin: 0;
+        overflow: hidden;
+        vertical-align: middle;
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+    }
+    .cimg {
+        max-width: 325px;
+        height: 245px;
+    }
+    .title-h {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        width:270px;
+        height:42px;
+    }
+    .div-h{
+        width:320px;
+        height:430px;
+    }
+</style>
+<div class="met-banner banner-ny-h" data-height='' style=''>
+    <div class="slick-slide">
+        <img class="cover-image" src="~/Content/picture/banner4.jpg" sizes="(max-width: 767px) 767px" alt="产品中心">
+    </div>
+</div>
+<div class="met-column-nav bordernone">
+    <div class="container">
+        <div class="row">
+           
+            <div class="product-search">
+                <form name="formsearch" action="/plus/search.php">
+                    <input type="hidden" name="kwtype" value="0" />
+                    <div class="form-group">
+                        <div class="input-search">
+                            <button type="submit" class="input-search-btn">
+                                @*<i class="icon wb-search" aria-hidden="true">
+                                </i>*@
+                            </button>
+                            @*<input type="text" class="form-control" name="q" value="" placeholder="请输入搜索产品全称">*@
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="met-product animsition type-3" style="padding-bottom:50px;">
+    <div class="container-fluid overlay">
+        <ul class="blocks-2 blocks-sm-2 blocks-md-4 blocks-xlg-4  met-page-ajax met-grid"
+            id="met-grid" data-scale='0.75117370892019'>
+            @{
+                    int id = 0;
+                    foreach (var m in Model)
+                    {
+                    <li class=" shown">
+                        <div class="widget widget-shadow ">
+                            <figure class="widget-header cover">
+                                <a href="/Product/ProductShow/@m.ID" title="@m.Title" target='_self'>
+                                    <img class="cimg" src="@m.PicURL" alt="@m.Title">
+                                </a>
+                            </figure>
+                            <div class="widget-body">
+                                <h4 class="widget-title">
+                                    @m.Title
+                                </h4>
+                                <p class="title-h">
+                                    @m.Description
+                                </p>
+                                <div class="widget-body-footer">
+                                    <div class="widget-actions pull-right">
+                                        <a href="/Product/ProductShow/@m.ID" title="@m.Title">
+                                            <i class="icon wb-eye" aria-hidden="true">
+                                            </i>
+                                            <span>
+                                                @m.ReadCount
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <a href="/Product/ProductShow/@m.ID" title="@m.Title" target='_self'
+                                       class="btn btn-outline btn-primary btn-squared">
+                                        查看详情
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                }
+            }
+        </ul>
+        <div class="page-wrap">
+            <ul class="pagination">
+                <li class="previous disabled"><a href="?page=1@ViewBag.Str">«</a></li>
+                @for (int page = 1; page <= (int)ViewBag.PageCount; page++)
+                {
+                    if (((int)ViewBag.CurrentPage) == page)
+                    {
+                        <li><a class="active" href="?page=@page@ViewBag.Str">@page</a></li>
+                    }
+                    else
+                    {
+                        <li><a href="?page=@page@ViewBag.Str">@page</a></li>
+                    }
+                }
+                <li class="next"><a href="?page=@ViewBag.PageCount@ViewBag.Str">»</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+

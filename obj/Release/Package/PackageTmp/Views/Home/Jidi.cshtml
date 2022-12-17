@@ -1,0 +1,38 @@
+﻿@model List<Maticsoft.Model.About>
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div style="padding-bottom:50px;">
+    <div class="met-banner banner-ny-h" data-height='' style=''>
+        <div class="slick-slide">
+            <img class="cover-image" src="~/Content/picture/banner002.jpg" sizes="(max-width: 767px) 767px" alt="樱桃种植基地">
+        </div>
+    </div>
+    
+    <section class="met-show animsition">
+        <div class="container">
+            <div class="row">
+                <div class="met-editor lazyload clearfix">
+                    @{
+                        foreach (var m in Model)
+                        {
+                            <div>
+                                <div style="text-align: center;">
+                                    &nbsp;
+                                    <img alt="" src="@m.PicURL1" style="width: 1200px !important; height: 500px !important;" />
+                                    <br />
+                                    <img alt="" src="@m.PicURL2" style="width: 1200px !important; height: 500px !important;"/>
+                                    <br />
+                                    <img alt="" src="@m.PicURL3" style="width: 1200px !important; height: 500px !important;" />
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+

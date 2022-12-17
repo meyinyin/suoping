@@ -1,0 +1,114 @@
+﻿@model Maticsoft.Model.Message
+@{
+    ViewBag.Title = "Home Page";
+    bool IsSuccess = (bool)ViewBag.IsSuccess;
+}
+@*<link href="~/Content/dist/css/zui.min.css" rel="stylesheet">*@
+<style>
+    .alert-success {
+        color: #329d38;
+        background-color: #ddf4df;
+    }
+</style>
+
+@if (IsSuccess)
+{
+    <div class="alert alert-success with-icon" id="showMsg" style="transition: all 1s; ">
+        <i class="icon-smile"></i>
+        <div class="content">
+            <h4>好消息</h4>
+            留言提交成功！
+        </div>
+    </div>
+    <script>
+        let showMsg = document.getElementById('showMsg')
+        console.log(showMsg)
+        if (showMsg) {
+            setTimeout(() => {
+                showMsg.parentNode.removeChild(showMsg);
+            }, 2000)
+        }
+    </script>
+}
+<div class="met-banner banner-ny-h" data-height='' style=''>
+    <div class="slick-slide">
+        <img class="cover-image" src="~/Content/picture/banner17.jpg" sizes="(max-width: 767px) 767px" alt="在线留言">
+    </div>
+</div>
+<div class="met-column-nav ">
+    <div class="container">
+        <div class="row">
+            <div class="sidebar-tile">
+                <ul class="met-column-nav-ul invisible-xs">
+                    <li>
+                        <a href="/Home/Contact" ​ class="link ">
+                            公司信息
+                        </a>
+                    </li>
+                    <li>
+                        <a href='/Home/Message' class='link active'>
+                            在线留言
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="met-message animsition" style="padding-bottom:100px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="met-message-submit">
+                        <form action="/Home/Message/" class="met-form met-form-validation" enctype="multipart/form-data"
+                              method="post">
+                            <input type="hidden" name="required" value="name,tel" />
+                            <input type="hidden" name="action" value="post" />
+                            <input type="hidden" name="diyid" value="1" />
+                            <input type="hidden" name="do" value="2" />
+                            <div class="form-group">
+                                <div>
+                                    <input name='MName' class='form-control' type='text' placeholder='姓名* ' />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <input name='avg2' class='form-control' type='text' placeholder='电话* ' />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <input name='MEmail' class='form-control' type='text' placeholder='邮箱 ' />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <input name='MAdress' class='form-control' type='text' placeholder='联系地址 ' />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <textarea name='MContent' class='form-control' placeholder='留言内容 ' rows='5'>
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" name="MDate" value="@DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")" />
+                            </div>
+                            <div class="form-group margin-bottom-0">
+                                <button type="submit" class="btn btn-primary btn-block btn-squared btn-success" id="sumbitBtn">
+                                    提交
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+

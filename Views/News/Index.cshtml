@@ -1,0 +1,105 @@
+﻿@model List<Maticsoft.Model.News>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<!-- PAGE TITLE PART START -->
+<div class="page-title">
+    <div class="container-xl">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12">
+                <div class="page-title-content text-center">
+                    @if (ViewBag.SortID == 3)
+                    {
+                        <h2>案例评析</h2>
+                    } @if (ViewBag.SortID == 5)
+                    {
+                        <h2>法规速递</h2>
+                    } @if (ViewBag.SortID == 6)
+                    {
+                        <h2>律师介绍</h2>
+                    } @if (ViewBag.SortID == 7)
+                    {
+                        <h2>索平动态</h2>
+                    } @if (ViewBag.SortID == 8)
+                    {
+                        <h2>索平荣誉</h2>
+                    } @if (ViewBag.SortID == 9)
+                    {
+                        <h2>索平党建</h2>
+                    } @if ( ViewBag.SortID != 3 && ViewBag.SortID != 5 && ViewBag.SortID != 7 && ViewBag.SortID != 8 && ViewBag.SortID != 9 && ViewBag.SortID != 6 || ViewBag.SortID == 0 || ViewBag.SortID == null)
+                    {
+                        <h2>索平新闻</h2>
+                    }
+                    @*<a href="/Home/Index">首页</a> - <span>Pages</span>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- PAGE TITLE PART END -->
+<!-- HAPPY CLIENT PART START -->
+<div class="happy-client-part">
+    <div class="container">
+        @{
+            foreach (var m in Model)
+            {
+                <div class="row mb-3 mb-xl-5 align-items-center">
+                    <div class="col-xl-4 col-lg-4">
+                                <a href="/News/NewsShow/@m.ID">
+                                    <div class="clients-img">
+                                        <img src="@m.PicURL" class=" img-fluid" alt="">
+                                    </div>
+                                </a>
+                    </div>
+                    <div class="col-xl-8 col-lg-8">
+                        <a href="/News/NewsShow/@m.ID">
+                            <div class="clients-info">
+                                <h4>@m.Title</h4>
+                                <span>@m.AddDateTime</span>
+                                <p>@m.Description</p>
+
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            }
+        }
+
+        
+
+        <ul class="pagination clearfix" style="display:flex; justify-content:center">
+
+            <li><a href="?page=@ViewBag.PageCounts@ViewBag.Str"><<</a></li>
+
+            @for (int page = 1; page <= (int)ViewBag.PageCount; page++)
+            {
+                if (((int)ViewBag.CurrentPage) == page)
+                {
+                    <li><a class="active" href="?page=@page@ViewBag.Str">@page</a></li>
+                }
+                else
+                {
+                    <li><a href="?page=@page@ViewBag.Str">@page</a></li>
+                }
+            }
+
+            <li><a href="?page=@ViewBag.PageCount@ViewBag.Str">>></a></li>
+
+        </ul>
+    </div>
+</div>
+<!-- HAPPY CLIENT PART END -->
+<!--新闻中心结束-->
+<script type="text/javascript">
+
+    $(window).load(function () {
+
+        $(".pagination li:first-child").addClass("prev")
+
+        $(".pagination li:last-child").addClass("next")
+
+    })
+</script>

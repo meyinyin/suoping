@@ -1,0 +1,157 @@
+﻿@model List<Maticsoft.Model.SortType>
+@{
+    Layout = null;
+    bool IsSuccess = (bool)ViewBag.IsSuccess;
+}
+@if (IsSuccess)
+{
+    <div class="alert alert-success with-icon" id="showMsg" style="transition: all 1s; ">
+        <i class="icon-smile"></i>
+        <div class="content">
+            <h4>好消息</h4>
+            分类修改成功！
+        </div>
+    </div>
+    <script>
+        let showMsg = document.getElementById('showMsg')
+        console.log(showMsg)
+        if (showMsg) {
+            setTimeout(() => {
+                showMsg.parentNode.removeChild(showMsg);
+            }, 2000)
+        }
+    </script>
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>褒河蜜桔官网后台</title>
+    @*<link rel="stylesheet" type="text/css" href="~/Content/static/admin/layui/css/layui.css" />
+        <link rel="stylesheet" type="text/css" href="~/Content/static/admin/css/admin.css" />*@
+    <link href="~/static/admin/layui/css/layui.css" rel="stylesheet" />
+    <link href="~/static/admin/css/admin.css" rel="stylesheet" />
+    <link rel='stylesheet' href='~/Content/css/index.css'>
+
+</head>
+
+<body>
+    <div class="page-content-wrap">
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <div class="layui-inline tool-btn">
+                    <button class="layui-btn layui-btn-small layui-btn-normal addBtn" data-url="/Manger/NewsSortAdd"><i class="layui-icon">&#xe654;</i></button>
+                    <button class="layui-btn layui-btn-small layui-btn-warm " data-url="/Manger/NewsSort"><i class="layui-icon">&#x1002;</i></button>
+                </div>
+                <div class="layui-inline">
+                    <input type="text" name="title" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                </div>
+                <button class="layui-btn layui-btn-normal" lay-submit="search">搜索</button>
+            </div>
+        </form>
+        <div class="layui-form" id="table-list">
+            <table class="layui-table" lay-even lay-skin="nob">
+                <colgroup>
+                    <col class="hidden-xs" width="50">
+                    <col>
+                    <col width="80">
+                    <col width="150">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th class="hidden-xs">ID</th>
+                        <th>分类名称</th>
+                        <th>状态</th>
+                        @*<th>操作</th>*@
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int i = 0;
+                        foreach (var m in Model)
+                        {
+                            <tr id="row@(m.ID)">
+                                <td class="hidden-xs">@(++i)</td>
+                                <td>@m.Name</td>
+                                <td onclick="excaction1('/Manger/NewsSortSd/@m.ID',@m.ID)">
+                                    @if (m.IsLock)
+                                    {
+                                        <a id="btn1@(m.ID)" class=" layui-btn layui-btn-mini layui-btn-normal table-list-status" data-toggle="modal" data-target="#myModal1@(m.ID)">显示</a>
+                                    }
+                                    else
+                                    {
+                                        <a id="btn1@(m.ID)" class=" layui-btn layui-btn-mini layui-btn-warm table-list-status" data-toggle="modal" data-target="#myModal1@(m.ID)">隐藏</a>
+                                    }
+
+                                </td>
+                                @*<td>
+                                    <div class="layui-inline">
+                                        <button class="layui-btn layui-btn-mini layui-btn-normal  go-btn" data-id="1" data-url="/Manger/NewsSortEdit/@m.ID/"><i class="layui-icon">&#xe642;</i></button>
+                                        
+                                        <a href="/Manger/NewsSortDel/@m.ID" class="layui-btn layui-btn-mini layui-btn-danger"><i class="layui-icon">&#xe640;</i></a>
+                                    </div>
+                                </td>*@
+                            </tr>
+                        }
+
+                    }
+
+                </tbody>
+            </table>
+            @*<div class="page-wrap">
+                    <ul class="pagination">
+                        <li class="disabled"><span>«</span></li>
+                        <li class="active"><span>1</span></li>
+                        <li>
+                            <a href="#">2</a>
+                        </li>
+                        <li>
+                            <a href="#">»</a>
+                        </li>
+                    </ul>
+                </div>*@
+        </div>
+    </div>
+    <script src="~/Scripts/jquery-3.4.1.js" type="text/javascript"></script>
+
+    <script src="~/static/admin/layui/layui.js"></script>
+    <script src="~/static/admin/js/common.js"></script>
+
+
+    <script>
+        function excaction1(href, data) {
+            $.get(href, null, function (ret) {
+                if (ret.IsSuccess) {
+                    if ($('#btn1' + data).hasClass('layui-btn-warm'))
+                        $('#btn1' + data).removeClass('layui-btn-warm').addClass('layui-btn-normal').text('显示');
+                    else
+                        $('#btn1' + data).removeClass('layui-btn-normal').addClass('layui-btn-warm').text('隐藏');
+                }
+            })
+        }
+                        //layui.use(['form', 'jquery', 'layer', 'dialog'], function () {
+                        //    var $ = layui.jquery;
+
+                                    //修改状态
+                                    //$('#table-list').on('click', '.table-list-status', function() {
+                                    //	var That = $(this);
+                                    //	var status = That.attr('data-status');
+                                    //	var id = That.parent().attr('data-id');
+                                    //	if(status == 1) {
+                                    //		That.removeClass('layui-btn-normal').addClass('layui-btn-warm').html('隐藏').attr('data-status', 2);
+                                    //	} else if(status == 2) {
+                                    //		That.removeClass('layui-btn-warm').addClass('layui-btn-normal').html('显示').attr('data-status', 1);
+
+                                    //	}
+                                    //})
+
+                        //        });
+
+    </script>
+</body>
+
+</html>

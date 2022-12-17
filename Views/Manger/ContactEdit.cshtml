@@ -1,0 +1,182 @@
+﻿@model Maticsoft.Model.About
+@{
+    Layout = null;
+    bool IsSuccess = (bool)ViewBag.IsSuccess;
+}
+@if (IsSuccess)
+{
+    <div class="alert alert-success with-icon" id="showMsg" style="transition: all 1s; ">
+        <i class="icon-smile"></i>
+        <div class="content">
+            <h4>好消息</h4>
+            修改成功！
+        </div>
+    </div>
+    <script>
+        let showMsg = document.getElementById('showMsg')
+        console.log(showMsg)
+        if (showMsg) {
+            setTimeout(() => {
+                showMsg.parentNode.removeChild(showMsg);
+            }, 2000)
+        }
+    </script>
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>褒河蜜桔官网后台</title>
+    <link href="~/Content/dist/lib/uploader/zui.uploader.min.css" rel="stylesheet" />
+    <link href="~/Content/dist/css/zui.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/Content/static/admin/layui/css/layui.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/static/admin/css/admin.css" />
+    <style>
+        .layui-form-label {
+            white-space: nowrap;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-content-wrap">
+        <form class="layui-form" action="/Manger/ContactEdit/1" method="post">
+            <div class="layui-tab" style="margin: 0;">
+                <div class="layui-tab-content">
+
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">地址：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="Adress" required lay-verify="required" placeholder="请输入地址" autocomplete="on" class="layui-input" value="@Model.Adress">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">电话：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="Phone" required lay-verify="required" placeholder="请输入电话" autocomplete="on" class="layui-input" value="@Model.Phone">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">手机：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="avg3" required lay-verify="number" placeholder="请输入手机号" autocomplete="on" class="layui-input" value="@Model.avg3">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">传真：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="CPhone" required lay-verify="required" placeholder="请输入传真" autocomplete="on" class="layui-input" value="@Model.CPhone">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">邮编：</label>
+                        <div class="layui-input-block">
+                            <input type="number" name="PostNum" required lay-verify="number" placeholder="请输入邮编" autocomplete="on" class="layui-input" value="@Model.PostNum">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">邮箱：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="avg4" required lay-verify="email" placeholder="请输入邮箱" autocomplete="on" class="layui-input" value="@Model.avg4">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">网址：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="WAdress" required lay-verify="required" placeholder="请输入网址" autocomplete="on" class="layui-input" value="@Model.WAdress">
+                        </div>
+                    </div>
+                    <div class="layui-tab-item layui-show">
+                        <div class="layui-form-item">
+                            <label for="PicURL" class="layui-form-label">微信图片:</label>
+                            <input type="hidden" name="APicURL" id="APicURL" value="@Model.APicURL" />
+                            <div class="col-md-10">
+                                <div id='PicUpload' class="uploader" data-ride="uploader" data-url="/api/news/upload">
+                                    <div class="uploader-message text-center">
+                                        <div class="content"></div>
+                                        <button type="button" class="close">×</button>
+                                    </div>
+                                    <div class="uploader-files file-list file-list-grid">
+                                        <img style="width:80px;padding-left:10px;" src="@Model.APicURL" />
+                                    </div>
+                                    <div>
+                                        <hr class="divider">
+                                        <div class="uploader-status pull-right text-muted"></div>
+                                        <button type="button" class="btn btn-link uploader-btn-browse"><i class="icon icon-plus"></i> 选择文件</button>
+                                        <button type="button" class="btn btn-link uploader-btn-start"><i class="icon icon-cloud-upload"></i> 开始上传</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item" style="padding-left: 10px;">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo" type="submit">立即修改</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- jQuery (ZUI中的Javascript组件依赖于jQuery) -->
+    <script src="~/Content/dist/lib/jquery/jquery.js"></script>
+    <script src="~/static/admin/layui/layui.js"></script>
+    <script src="~/static/admin/js/common.js"></script>
+    <script src="~/Content/dist/lib/uploader/zui.uploader.min.js"></script>
+    <script src="~/Content/dist/lib/kindeditor/kindeditor.min.js"></script>
+
+    <!-- 在此处编码你的创意 -->
+    <!-- ZUI Javascript组件 -->
+    <script src="~/Content/dist/js/zui.min.js"></script>
+    <script src="~/Content/dist/lib/uploader/zui.uploader.min.js"></script>
+    <link href="~/Content/dist/lib/uploader/zui.uploader.min.css" rel="stylesheet">
+    <link href="~/Content/dist/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+    <script src="~/Content/dist/lib/datetimepicker/datetimepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Content/static/admin/layui/css/layui.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/static/admin/css/admin.css" />
+    <script type="text/javascript">
+        KindEditor.create('textarea.kindeditor', {
+            basePath: '/Content/dist/lib/kindeditor/',
+            allowFileManager: true,
+            bodyClass: 'article-content',
+            uploadJson: '/Common/Upload_json',
+            fileManagerJson: '/Common/FileManager',
+            newlineTag: "br",
+            urlType: 'domain'
+        });
+        $('#PicUpload').uploader({
+            onFileUploaded: function (file, res) {
+                if (file) {
+                    var ret = $.parseJSON(res.response);
+                    $('#APicURL').val('/uploadshop/' + ret.Data);
+                };
+            }
+        });
+
+    </script>
+    <script>
+        layui.use(['form', 'jquery', 'laydate', 'layer', 'laypage', 'dialog', 'element', 'upload', 'layedit'], function () {
+            var form = layui.form(),
+                layer = layui.layer,
+                $ = layui.jquery,
+                laypage = layui.laypage,
+                laydate = layui.laydate,
+                layedit = layui.layedit,
+                element = layui.element(),
+                dialog = layui.dialog;
+
+            //获取当前iframe的name值
+            var iframeObj = $(window.frameElement).attr('name');
+
+        });
+
+    </script>
+</body>
+
+</html>
